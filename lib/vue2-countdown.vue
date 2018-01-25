@@ -27,6 +27,7 @@
         star: '',			//活动开始时间
         end: '',				//活动结束时间
         current: '',         //当前时间
+        timer: {}
       }
     },
     watch: {
@@ -139,6 +140,7 @@
         let msTime = this.msTime;
         let timeDistance = startTime - endTime;
         if (timeDistance > 0) {
+          clearTimeout(this.timer);//开始计时前清楚之前的计时器
           this.msTime.show = true;
           msTime.day = Math.floor(timeDistance / 86400000);
           timeDistance -= msTime.day * 86400000;
@@ -163,7 +165,7 @@
           let _s = Date.now();
           let _e = Date.now();
           let diffPerFunc = _e - _s;
-          setTimeout(() => {
+          this.timer = setTimeout(() => {
             if (type) {
               this.runTime(this.end, endTime += 1000, callFun, true);
             } else {
